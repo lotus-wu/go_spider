@@ -28,7 +28,7 @@ type QueueScheduler struct {
 
 func NewQueueScheduler(rmDuplicate bool) *QueueScheduler {
 	queue := list.New()
-	rmKey := make(map[[md5.Size]byte]*list.Element)
+	rmKey := make(map[[md5.Size]byte]*Elem)
 	locker := new(sync.Mutex)
 	return &QueueScheduler{rm: rmDuplicate, queue: queue, rmKey: rmKey, locker: locker}
 }
