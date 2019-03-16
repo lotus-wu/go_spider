@@ -38,11 +38,11 @@ func (this *QueueScheduler) Push(requ *request.Request) {
 	var key [md5.Size]byte
 	if this.rm {
 		key = md5.Sum([]byte(requ.GetUrl()))
-		if elem, ok := this.rmKey[key]; ok {
-			if elem.Polled == true {
-				this.locker.Unlock()
-				return
-			}
+		if _, ok := this.rmKey[key]; ok {
+			//if elem.Polled == true {
+			this.locker.Unlock()
+			return
+			//}
 		}
 	}
 	e := this.queue.PushBack(requ)
@@ -60,11 +60,12 @@ func (this *QueueScheduler) Poll() *request.Request {
 	}
 	e := this.queue.Front()
 	requ := e.Value.(*request.Request)
-	key := md5.Sum([]byte(requ.GetUrl()))
+	//key := md5.Sum([]byte(requ.GetUrl()))
 	this.queue.Remove(e)
 	if this.rm {
-		delete(this.rmKey, key)
-		this.rmKey[key] = &Elem{Ele: e, Polled: true}
+		//delete(this.rmKey, key)
+		//this.rmKey[key] = &Elem{Ele: e, Polled: true}
+		//本quene的特色是使用过的key都不可以再次插入，不删除即可
 	}
 	this.locker.Unlock()
 	return requ
