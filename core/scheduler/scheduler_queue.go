@@ -60,12 +60,12 @@ func (this *QueueScheduler) Poll() *request.Request {
 	}
 	e := this.queue.Front()
 	requ := e.Value.(*request.Request)
-	//key := md5.Sum([]byte(requ.GetUrl()))
+	key := md5.Sum([]byte(requ.GetUrl()))
 	this.queue.Remove(e)
 	if this.rm {
-		//delete(this.rmKey, key)
-		//this.rmKey[key] = &Elem{Ele: e, Polled: true}
-		//本quene的特色是使用过的key都不可以再次插入，不删除即可
+		delete(this.rmKey, key)
+		this.rmKey[key] = &Elem{Ele: nil, Polled: true}
+		//本quene的特色是使用过的key都不可以再次插入，key测试的map不删除数据即可，为了减少内存使用，这里删除掉elem数据
 	}
 	this.locker.Unlock()
 	return requ
