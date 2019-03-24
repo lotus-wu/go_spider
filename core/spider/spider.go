@@ -2,6 +2,7 @@
 package spider
 
 import (
+	//"log"
 	"math/rand"
 
 	"github.com/hu17889/go_spider/core/common/mlog"
@@ -352,9 +353,10 @@ func (this *Spider) pageProcess(req *request.Request) {
 
 	}
 
-	if !p.IsSucc() { // if fail do not need process
-		return
-	}
+	// if fail ,we need to process in Process interface
+	// if !p.IsSucc() { // if fail do not need process
+	// 	return
+	// }
 
 	this.pPageProcesser.Process(p)
 	for _, req := range p.GetTargetRequests() {

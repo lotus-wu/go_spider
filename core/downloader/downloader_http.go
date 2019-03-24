@@ -242,7 +242,7 @@ func connectByHttp(p *page.Page, req *request.Request) (*http.Response, error) {
 			log.Println("*******", err.Error())
 		} else {
 			mlog.LogInst().LogError(err.Error())
-			log.Println("########", e.Err.Error())
+			//log.Println("########", e.Err.Error())
 			p.SetStatus(true, err.Error())
 			//fmt.Printf("client do error %v \r\n", err)
 			return nil, err
@@ -295,6 +295,7 @@ func (this *HttpDownloader) downloadFile(p *page.Page, req *request.Request) (*p
 	}
 
 	if err != nil {
+		//p.SetStatus(true, err.Error())
 		return p, ""
 	}
 
