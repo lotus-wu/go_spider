@@ -5,6 +5,7 @@ package page
 import (
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/bitly/go-simplejson"
@@ -41,16 +42,23 @@ type Page struct {
 
 	// The targetRequests is requests to put into Scheduler.
 	targetRequests []*request.Request
+
+	//Time out control
+	TimeOut time.Duration
 }
 
 // NewPage returns initialized Page object.
 func NewPage(req *request.Request) *Page {
-	return &Page{pItems: page_items.NewPageItems(req), req: req}
+	return &Page{pItems: page_items.NewPageItems(req), req: req, TimeOut: 5 * time.Second}
 }
 
 // SetHeader save the header of http responce
 func (this *Page) SetHeader(header http.Header) {
 	this.header = header
+}
+
+func (this *Page) SetTimeOutSecond(timeOut time.Duration) {
+	this.TimeOut = timeOut
 }
 
 // GetHeader returns the header of http responce
